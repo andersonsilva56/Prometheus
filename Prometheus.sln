@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Visao", "Visao\", "{A5CCC3EC-E456-4A90-AA81-657FC5B14184}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		ProjectReferences = "{4a7a336d-822c-40bc-9377-37c4ced231d6}|Modelo.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_61948"
+		Debug.AspNetCompiler.PhysicalPath = "Visao\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61948\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_61948"
+		Release.AspNetCompiler.PhysicalPath = "Visao\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61948\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "61948"
+		SlnRelativePath = "Visao\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modelo", "Modelo\Modelo.csproj", "{4A7A336D-822C-40BC-9377-37C4CED231D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5CCC3EC-E456-4A90-AA81-657FC5B14184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5CCC3EC-E456-4A90-AA81-657FC5B14184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5CCC3EC-E456-4A90-AA81-657FC5B14184}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5CCC3EC-E456-4A90-AA81-657FC5B14184}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{4A7A336D-822C-40BC-9377-37C4CED231D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7A336D-822C-40BC-9377-37C4CED231D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7A336D-822C-40BC-9377-37C4CED231D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7A336D-822C-40BC-9377-37C4CED231D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

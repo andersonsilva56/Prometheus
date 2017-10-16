@@ -1,0 +1,50 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="mpLogin.master.cs" Inherits="mpLogin" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/FormLogin.css" />
+    <link rel="stylesheet" href="css/Load.css" />
+
+    <link rel="shortcut icon" href="images/favicon.png" />
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/MSGAguarde.js"></script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server" enctype="multipart/form-data" role="form">
+        <asp:ScriptManager ID="ScriptManager2"
+            runat="server"
+            EnableScriptGlobalization="true"
+            EnableScriptLocalization="true">
+        </asp:ScriptManager>
+        <div class="modal fade" id="modalResposta" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="modalRespostaLabel"></h4>
+                    </div>
+                    <div class="modal-body" id="modalRespostaBody">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnFechar" type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>
