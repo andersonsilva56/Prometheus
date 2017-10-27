@@ -94,4 +94,5 @@
 $(function () {
     $(".counted").charCounter(100, { container: "#counter" });
     $(".countedCom").charCounter(20, { container: "#countedCom" });
+    $(".counted80").charCounter(80, { container: "#counted80" });
 });

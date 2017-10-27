@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/page/Site.master" AutoEventWireup="true" CodeFile="configuracao.aspx.cs" Inherits="page_frequencia_configuracao" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="<%= ResolveClientUrl("~/css/Calendario.css")%>" rel="Stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <div class="row">
@@ -59,7 +60,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <asp:Button runat="server" ID="btnPesquisar" class="btn btn-primary" Text="Pesquisar" />
-                                <asp:Button runat="server" ID="btnNovo" class="btn btn-success" Text="Novo" />
+                                <asp:Button runat="server" ID="btnNovo" class="btn btn-success" Text="Novo" OnClick="btnNovo_Click" />
                             </div>
                         </div>
                     </div>
@@ -87,14 +88,14 @@
     <div id="divCadastro" visible="false" runat="server">
         <div class="page-title">
             <div class="title_left">
-                <h3>Cadastro</h3>
+                <h3>Frequência</h3>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Dados</h2>
+                        <h2>Visualização</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -103,6 +104,66 @@
                     </div>
                     <div class="x_content">
                         <div class="row">
+                            <div class="col-md-9">
+                                <div>
+                                    <p>
+                                        Legenda
+                                    </p>
+                                    <table>
+                                        <tr>
+                                            <td style="width: 20px; background-color: #95FF95"></td>
+                                            <td>&nbsp;Treino Normal</td>
+                                            <td>&nbsp;</td>
+                                            <td style="width: 20px; background-color: #77ADFF"></td>
+                                            <td>&nbsp;Day Camp</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="calendarWrapper">
+                                    <asp:Calendar ID="Calendar1" runat="server" DayNameFormat="FirstLetter" Width="100%"
+                                        Font-Names="Tahoma" Font-Size="11px" SelectWeekText="&amp;lt;"
+                                        OnSelectionChanged="Calendar1_SelectionChanged"
+                                        OnDayRender="Calendar1_DayRender"
+                                        CssClass="myCalendar" CellPadding="0">
+                                        <OtherMonthDayStyle ForeColor="#b0b0b0" />
+                                        <DayStyle CssClass="myCalendarDay" ForeColor="#2d3338" />
+                                        <DayHeaderStyle CssClass="myCalendarDayHeader" ForeColor="#2d3338" />
+                                        <SelectedDayStyle Font-Bold="True" Font-Size="12px" CssClass="myCalendarSelector" />
+                                        <TodayDayStyle CssClass="myCalendarToday" />
+                                        <SelectorStyle CssClass="myCalendarSelector" />
+                                        <TitleStyle CssClass="myCalendarTitle" />
+                                    </asp:Calendar>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="myModalNotas" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalNotasLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="panel-title" id="contactLabel"><span class="glyphicon glyphicon-info-sign"></span>Informações</h4>
+                </div>
+                <div class="modal-body" style="padding: 5px;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Contato para emergência</label>
+                                <asp:TextBox ID="txtObservacao" runat="server" TextMode="MultiLine" CssClass="form-control counted80"></asp:TextBox>
+                                <h6 class="pull-right" id="counted80">80 caracteres remanescente</h6>
+                            </div>
+                        </div>
+                        <div class="panel-footer" style="margin-bottom: -14px;">
+                            <asp:Button ID="btnSalvarNota" OnClick="btnSalvarNotaClick" runat="server" class="btn btn-default" Text="Salvar" />
                         </div>
                     </div>
                 </div>
@@ -113,5 +174,11 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="script" runat="Server">
     <script src="<%= ResolveClientUrl("~/js/input_mask/jquery.inputmask.js")%>"></script>
     <script src="<%= ResolveClientUrl("~/js/input_mask/Mascara.js")%>"></script>
+    <script src="<%= ResolveClientUrl("~/js/Counter.js")%>"></script>
+    <script>
+        $(document).ready(function () {
+            $(":input").inputmask();
+        });
+    </script>
 </asp:Content>
 
