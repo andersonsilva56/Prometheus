@@ -163,7 +163,7 @@
                             </div>
                         </div>
                         <div class="panel-footer" style="margin-bottom: -14px;">
-                            <asp:Button ID="btnSalvarNota" OnClick="btnSalvarNotaClick" runat="server" class="btn btn-default" Text="Salvar" />
+                            <asp:Button ID="btnSalvarNota" runat="server" class="btn btn-default" Text="Salvar" />
                         </div>
                     </div>
                 </div>

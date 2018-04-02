@@ -192,7 +192,7 @@
             <div class="col-md-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Dados dos Atletas</h2>
+                        <h2>Dados do Atleta</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -249,6 +249,77 @@
                                     <label>Tamnho uniforme</label>
                                     <asp:TextBox ID="txtTamUniforme" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Anexos do Atleta</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Anexar arquivos</label>
+                                    <asp:FileUpload ID="fuArquivos" runat="server" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <asp:GridView ID="gvArquivos" runat="server" AutoGenerateColumns="False"
+                                    OnRowCommand="gvArquivos_RowCommand"
+                                    AllowPaging="True"
+                                    CssClass="table table-bordered table-hover table-responsive jambo_table">
+                                    <Columns>
+                                        <asp:BoundField DataField="DESCRICAO" HeaderText="Descrição" />
+                                        <asp:ButtonField HeaderText="Visualizar"
+                                            ButtonType="Link"
+                                            Text='<i class="fa fa-search"></i>'
+                                            CommandName="Visualizar"
+                                            ControlStyle-CssClass="btn btn-xs btn-primary" />
+                                        <asp:ButtonField HeaderText="Excluir"
+                                            ButtonType="Link"
+                                            Text='<i class="fa fa-minus-circle"></i>'
+                                            CommandName="Visualizar"
+                                            ControlStyle-CssClass="btn btn-xs btn-danger" />
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Descrição do arquivo</label>
+                                    <asp:TextBox ID="txtDescricaoArquivos" runat="server" CssClass="form-control"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <asp:GridView ID="gvArquivoAdd" runat="server"
+                                    OnRowCommand="gvArquivoAdd_RowCommand"
+                                    AllowPaging="True"
+                                    CssClass="table table-bordered table-hover table-responsive jambo_table">
+                                    <Columns>                                                                                
+                                        <asp:ButtonField HeaderText="Excluir"
+                                            ButtonType="Link"
+                                            Text='<i class="fa fa-minus-circle"></i>'
+                                            CommandName="Visualizar"
+                                            ControlStyle-CssClass="btn btn-xs btn-danger" />
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <asp:Button runat="server" ID="btnAnexoAdd" class="btn btn-primary" Text="Adicionar" OnClick="btnAnexoAdd_Click" />
                             </div>
                         </div>
                     </div>

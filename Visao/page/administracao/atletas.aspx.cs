@@ -4,9 +4,20 @@ using System.Web.UI;
 using Modelo;
 using LOGAN.Prometheus.Pagina;
 using System.Web.UI.WebControls;
+using System.IO;
+using System.Configuration;
 
 public partial class page_administracao_atletas : BaseAutPage
-{    
+{
+    #region Variaveis
+
+    int lTamanhoIMG = 0;
+    string c = "";
+    string images = "";
+    string lTipoIMG = "";
+
+    #endregion
+
     #region Metodos Privados
 
     private void CarregaListaPosicao()
@@ -138,10 +149,23 @@ public partial class page_administracao_atletas : BaseAutPage
                       AtletaEntidade.tamanhouniforme = txtTamUniforme.Text;
 
                       pRetorno = AtletaModelo.Include();
-                  }
 
-                  LimparCampos();
-                  exibirMensagem("Ok", "Cadastro efetuado com sucesso", "ok");
+                      DataTable lTabela = (DataTable)ViewState["ANEXAARQUIVO"];
+                      byte[] arquivo = new byte[0];
+
+                      if (lTabela != null)
+                      {
+                          for (int i = 0; i < lTabela.Rows.Count; i++)
+                          {
+                              arquivo = (byte[])lTabela.Rows[i]["ARQUIVO"];
+                              IncludeAnexo(pRetorno, lTabela.Rows[i]["DESCRICAO"].ToString(), lTabela.Rows[i]["TIPOARQUIVO"].ToString(), arquivo);
+                          }
+
+                          ExcluiAnexo("");
+                      }
+                }
+                LimparCampos();
+                exibirMensagem("Ok", "Cadastro efetuado com sucesso", "ok");
               }
               else
                 exibirMensagem("Erro", Conexao.excecao.Replace("@", "").Replace("'", ""), "erro");
@@ -151,6 +175,18 @@ public partial class page_administracao_atletas : BaseAutPage
         {
             exibirMensagem("Erro", err.Message.ToString(), "erro");
         }
+    }
+
+    private void IncludeAnexo(decimal pId, string pDesc, string pFormato, byte[] pArquivo)
+    {
+        string pRetorno = "";
+
+        AtletaAnexoEntidade.codigo_atleta = pId;
+        AtletaAnexoEntidade.descricao = pDesc;
+        AtletaAnexoEntidade.arquivo = pArquivo;
+        AtletaAnexoEntidade.tipoarquivo = pFormato;
+
+        pRetorno = AtletaAnexoModelo.Include();
     }
 
     private void Update()
@@ -223,6 +259,20 @@ public partial class page_administracao_atletas : BaseAutPage
                     AtletaEntidade.tamanhouniforme = txtTamUniforme.Text;
 
                     pRetornoInc = AtletaModelo.Include();
+
+                    DataTable lTabela = (DataTable)ViewState["ANEXAARQUIVO"];
+                    byte[] arquivo = new byte[0];
+
+                    if (lTabela != null)
+                    {
+                        for (int i = 0; i < lTabela.Rows.Count; i++)
+                        {
+                            arquivo = (byte[])lTabela.Rows[i]["ARQUIVO"];
+                            IncludeAnexo(pRetornoInc, lTabela.Rows[i]["DESCRICAO"].ToString(), lTabela.Rows[i]["TIPOARQUIVO"].ToString(), arquivo);
+                        }
+
+                        ExcluiAnexo("");
+                    }
                 }
             }
 
@@ -286,6 +336,118 @@ public partial class page_administracao_atletas : BaseAutPage
         txtTamUniforme.Text = "";
     }
 
+    private void AddAnexo()
+    {
+        try
+        {
+            string lTipo = "";
+
+            lTipo = Path.GetExtension(Path.GetFileName(fuArquivos.FileName));
+
+            if ((lTipo.ToUpper() == ".JPG") || (lTipo.ToUpper() == ".PNG") || (lTipo.ToUpper() == ".BMP"))
+            {
+                lTipoIMG = lTipo;
+                DataTable lTableAnexo;
+                if (ViewState["ANEXAARQUIVO"] != null)
+                {
+                    lTableAnexo = (DataTable)ViewState["ANEXAARQUIVO"];
+                }
+                else
+                {
+                    lTableAnexo = new DataTable();
+
+                    DataColumn coluna = new DataColumn();
+                    coluna.DataType = System.Type.GetType("System.String");
+                    coluna.ColumnName = "DESCRICAO";
+                    lTableAnexo.Columns.Add(coluna);
+
+                    coluna = new DataColumn();
+                    coluna.DataType = System.Type.GetType("System.Byte[]");
+                    coluna.ColumnName = "ARQUIVO";
+                    lTableAnexo.Columns.Add(coluna);
+
+                    coluna = new DataColumn();
+                    coluna.DataType = System.Type.GetType("System.String");
+                    coluna.ColumnName = "TIPOARQUIVO";
+                    lTableAnexo.Columns.Add(coluna);
+                }
+
+                if (fuArquivos.PostedFile.FileName != "")
+                {
+                    DataRow row = lTableAnexo.NewRow();
+                    row["DESCRICAO"] = txtDescricaoArquivos.Text.ToUpper();
+                    row["TIPOARQUIVO"] = lTipoIMG;
+                    row["ARQUIVO"] = carregaAnexo();
+
+                    if (lTamanhoIMG > 1182940)
+                    {
+                        exibirMensagem("Aviso", "Tamanho máximo para upload é de 1MB", "alerta");
+                        txtDescricaoArquivos.Text = "";
+                    }
+                    else
+                    {
+                        lTableAnexo.Rows.Add(row);
+                    }
+                }
+
+                gvArquivoAdd.DataSource = lTableAnexo;
+                gvArquivoAdd.DataBind();
+                ViewState["ANEXAARQUIVO"] = lTableAnexo;
+            }
+            else
+            {
+                exibirMensagem("Aviso","É permitido anexar somente imagens do tipo JPG/JPEG/PNG/BMP", "alerta");
+            }
+        }        
+        catch (Exception err)
+        {
+            
+        }
+
+    }
+
+    private byte[] carregaAnexo()
+    {
+        FileStream fs;
+        byte[] MyData = new byte[0];
+
+        lTamanhoIMG = fuArquivos.PostedFile.ContentLength;
+
+        if (lTamanhoIMG < 1182940)
+        {
+            c = System.IO.Path.GetFileName(fuArquivos.PostedFile.FileName);
+            images = ConfigurationManager.AppSettings["ArquivoAnexo"].ToString() + c;
+            fuArquivos.PostedFile.SaveAs(images);
+
+            fs = new FileStream(ConfigurationManager.AppSettings["ArquivoAnexo"].ToString() + c,
+                                FileMode.OpenOrCreate, FileAccess.Read);
+            MyData = new byte[fs.Length];
+            fs.Read(MyData, 0, System.Convert.ToInt32(fs.Length));
+            fs.Close();
+
+            ExcluiAnexo(fuArquivos.PostedFile.FileName);
+        }
+
+        return MyData;
+    }
+
+    private void ExcluiAnexo(string pNome)
+    {
+        String path = ConfigurationManager.AppSettings["ArquivoAnexo"].ToString();
+
+        if (System.IO.File.Exists(path + pNome))
+        {
+            try
+            {
+                System.IO.File.Delete(path + pNome);
+            }
+            catch (System.IO.IOException ex)
+            {                
+                return;
+            }
+        }
+    }
+
     #endregion
 
     #region Eventos
@@ -324,6 +486,11 @@ public partial class page_administracao_atletas : BaseAutPage
         }
     }
 
+    protected void btnAnexoAdd_Click(object sender, EventArgs e)
+    {
+        AddAnexo();
+    }
+
     protected void gvAtleta_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -348,6 +515,11 @@ public partial class page_administracao_atletas : BaseAutPage
         }
     }
 
+    protected void gvArquivos_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+    }
+
     protected void cbDadosAtleta_CheckedChanged(object sender, EventArgs e)
     {
         if (cbDadosAtleta.Checked)
@@ -370,5 +542,10 @@ public partial class page_administracao_atletas : BaseAutPage
         }
     }
 
-    #endregion    
+    #endregion            
+
+    protected void gvArquivoAdd_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+    }
 }

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\Conexao.cs" />
+    <Compile Include="Dicionario\AtletaAnexoModelo.cs" />
     <Compile Include="Dicionario\ComissaoTecnicaModelo.cs" />
     <Compile Include="Dicionario\AtletaStatusModelo.cs" />
     <Compile Include="Dicionario\AtletaModelo.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Dicionario\PosicaoModelo.cs" />
     <Compile Include="Dicionario\PessoaModelo.cs" />
     <Compile Include="Dicionario\UsuarioModelo.cs" />
+    <Compile Include="Entidade\AtletaAnexoEntidade.cs" />
     <Compile Include="Entidade\AtletaStatusEntidade.cs" />
     <Compile Include="Entidade\AtletaEntidade.cs" />
     <Compile Include="Entidade\PessoaEntidade.cs" />

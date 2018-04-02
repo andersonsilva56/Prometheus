@@ -14,3 +14,11 @@ C:\Users\Defensoria\Desktop\Prometheus\Prometheus\Modelo\obj\Debug\Modelo.csproj
 C:\Users\Defensoria\Desktop\Prometheus\Prometheus\Modelo\obj\Debug\Modelo.dll
 C:\Users\Defensoria\Desktop\Prometheus\Prometheus\Modelo\obj\Debug\Modelo.pdb
 C:\Users\Defensoria\Desktop\Prometheus\Prometheus\Modelo\bin\Debug\APB.Framework.Encryption.dll
+D:\Git\prometheus\Prometheus\Modelo\bin\Debug\Modelo.dll
+D:\Git\prometheus\Prometheus\Modelo\bin\Debug\Modelo.pdb
+D:\Git\prometheus\Prometheus\Modelo\bin\Debug\APB.Framework.Encryption.dll
+D:\Git\prometheus\Prometheus\Modelo\bin\Debug\Npgsql.pdb
+D:\Git\prometheus\Prometheus\Modelo\bin\Debug\Npgsql.xml
+D:\Git\prometheus\Prometheus\Modelo\obj\Debug\Modelo.csprojResolveAssemblyReference.cache
+D:\Git\prometheus\Prometheus\Modelo\obj\Debug\Modelo.dll
+D:\Git\prometheus\Prometheus\Modelo\obj\Debug\Modelo.pdb
