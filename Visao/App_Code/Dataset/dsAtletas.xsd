@@ -9,7 +9,7 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="dsAtletas" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsAtletas" msprop:Generator_UserDSName="dsAtletas">
+  <xs:element name="dsAtletas" msdata:IsDataTable="true" msdata:UseCurrentLocale="true" msprop:Generator_DataTableName="dsAtletas" msprop:Generator_UserDSName="dsAtletas">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="dsAtletas" msprop:Generator_TableClassName="dsAtletasDataTable" msprop:Generator_TableVarName="tabledsAtletas" msprop:Generator_TablePropName="_dsAtletas" msprop:Generator_RowDeletingName="dsAtletasRowDeleting" msprop:Generator_RowChangingName="dsAtletasRowChanging" msprop:Generator_RowEvHandlerName="dsAtletasRowChangeEventHandler" msprop:Generator_RowDeletedName="dsAtletasRowDeleted" msprop:Generator_UserTableName="dsAtletas" msprop:Generator_RowChangedName="dsAtletasRowChanged" msprop:Generator_RowEvArgName="dsAtletasRowChangeEvent" msprop:Generator_RowClassName="dsAtletasRow">

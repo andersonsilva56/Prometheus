@@ -31,6 +31,8 @@ public partial class page_administracao_atletas : BaseAutPage
         ddlPesquisaPosicao.DataValueField = "CODIGO";
         ddlPesquisaPosicao.DataTextField = "DESCRICAO";
         ddlPesquisaPosicao.DataBind();
+
+        ddlPesquisaPosicao.Items.Insert(0, new ListItem("--Selecione Aqui--", "0"));
     }   
 
     private void CarregaListaAtletaStatus()
@@ -44,6 +46,8 @@ public partial class page_administracao_atletas : BaseAutPage
         ddlPesquisaStatus.DataValueField = "CODIGO";
         ddlPesquisaStatus.DataTextField = "DESCRICAO";
         ddlPesquisaStatus.DataBind();
+
+        ddlPesquisaStatus.Items.Insert(0, new ListItem("--Selecione Aqui--", "0"));
     }
 
     private void CarregaListaNumeracao()
@@ -54,9 +58,9 @@ public partial class page_administracao_atletas : BaseAutPage
         ddlNumeracao.DataBind();
     }
 
-    private void CarregaGrid()
+    private void CarregaGrid(string pQuery)
     {
-        ViewState["VW_ATLETA"] = PessoaModelo.CarregaDadosPessoaAtleta();
+        ViewState["VW_ATLETA"] = PessoaModelo.CarregaDadosPessoaAtleta(pQuery);
 
         gvAtleta.DataSource = ViewState["VW_ATLETA"];
         gvAtleta.DataBind();
@@ -64,52 +68,73 @@ public partial class page_administracao_atletas : BaseAutPage
 
     private void CarregaDadosAtleta(decimal pCodigo)
     {
-        DataSet lTabela = PessoaModelo.CarregaDadosPessoaAtleta(pCodigo);
+        DataTable lTabela = PessoaModelo.CarregaDadosPessoaAtleta(pCodigo);
 
-        if(lTabela.Tables[0].Rows.Count > 0)
+        if(lTabela.Rows.Count > 0)
         {
             ImgFoto.ImageUrl = "../administracao/foto.aspx?p=" + pCodigo + "";
 
-            hfCodigoPessoa.Value = lTabela.Tables[0].Rows[0]["CODIGO"].ToString();
-            hfCodigoAtleta.Value = lTabela.Tables[0].Rows[0]["CODIGO_ATLETA"].ToString();
+            hfCodigoPessoa.Value = lTabela.Rows[0]["CODIGO"].ToString();
+            hfCodigoAtleta.Value = lTabela.Rows[0]["CODIGO_ATLETA"].ToString();
 
-            txtNome.Text = lTabela.Tables[0].Rows[0]["NOME"].ToString();
-            txtNascimento.Text = lTabela.Tables[0].Rows[0]["NASCIMENTO"].ToString();
-            txtProfissao.Text = lTabela.Tables[0].Rows[0]["PROFISSAO"].ToString();
-            txtEmail.Text = lTabela.Tables[0].Rows[0]["EMAIL"].ToString();
-            txtTelefone.Text = lTabela.Tables[0].Rows[0]["TELEFONE"].ToString();
-            ddlEscolaridade.SelectedValue = lTabela.Tables[0].Rows[0]["ESCOLARIDADE"].ToString();
-            txtCpf.Text = lTabela.Tables[0].Rows[0]["CPF"].ToString();
-            txtRg.Text = lTabela.Tables[0].Rows[0]["RG"].ToString();
-            TxtCelular.Text = lTabela.Tables[0].Rows[0]["CELULAR"].ToString();
-            txtPlanoSaude.Text = lTabela.Tables[0].Rows[0]["PLANOSAUDE"].ToString();
-            txtContato.Text = lTabela.Tables[0].Rows[0]["CONTATO"].ToString();
+            txtNome.Text = lTabela.Rows[0]["NOME"].ToString();
+            txtNascimento.Text = lTabela.Rows[0]["NASCIMENTO"].ToString();
+            txtProfissao.Text = lTabela.Rows[0]["PROFISSAO"].ToString();
+            txtEmail.Text = lTabela.Rows[0]["EMAIL"].ToString();
+            txtTelefone.Text = lTabela.Rows[0]["TELEFONE"].ToString();
+            ddlEscolaridade.SelectedValue = lTabela.Rows[0]["ESCOLARIDADE"].ToString();
+            txtCpf.Text = lTabela.Rows[0]["CPF"].ToString();
+            txtRg.Text = lTabela.Rows[0]["RG"].ToString();
+            TxtCelular.Text = lTabela.Rows[0]["CELULAR"].ToString();
+            txtPlanoSaude.Text = lTabela.Rows[0]["PLANOSAUDE"].ToString();
+            txtContato.Text = lTabela.Rows[0]["CONTATO"].ToString();
 
             if (hfCodigoAtleta.Value != "")
             {
-                DataSet lTabelaAtleta = AtletaModelo.CarregaDadosAtleta(decimal.Parse(hfCodigoAtleta.Value));
+                DataTable lTabelaAtleta = AtletaModelo.CarregaDadosAtleta(decimal.Parse(hfCodigoAtleta.Value));
 
-                if (lTabelaAtleta.Tables[0].Rows.Count > 0)
+                if (lTabelaAtleta.Rows.Count > 0)
                 {
-                    ddlAtletaStatus.SelectedValue = lTabelaAtleta.Tables[0].Rows[0]["ATLETASTATUS"].ToString();
-                    ddlPosicao.SelectedValue = lTabelaAtleta.Tables[0].Rows[0]["POSICAO"].ToString();
+                    ddlAtletaStatus.SelectedValue = lTabelaAtleta.Rows[0]["ATLETASTATUS"].ToString();
+                    ddlPosicao.SelectedValue = lTabelaAtleta.Rows[0]["POSICAO"].ToString();
 
                     NumeracaoIncluir.Visible = false;
                     NumeracaoVisualizar.Visible = true;
 
-                    txtNumeracao.Text = lTabelaAtleta.Tables[0].Rows[0]["NUMERO"].ToString() + "|" + lTabelaAtleta.Tables[0].Rows[0]["CONTADOR"].ToString();
-                    hfNumeracao.Value = lTabelaAtleta.Tables[0].Rows[0]["NUMERO"].ToString();
-                    hfContador.Value = lTabelaAtleta.Tables[0].Rows[0]["CONTADOR"].ToString();
+                    txtNumeracao.Text = lTabelaAtleta.Rows[0]["NUMERO"].ToString() + "|" + lTabelaAtleta.Rows[0]["CONTADOR"].ToString();
+                    hfNumeracao.Value = lTabelaAtleta.Rows[0]["NUMERO"].ToString();
+                    hfContador.Value = lTabelaAtleta.Rows[0]["CONTADOR"].ToString();
 
-                    txtAltura.Text = lTabelaAtleta.Tables[0].Rows[0]["ALTURA"].ToString();
-                    txtPeso.Text = lTabelaAtleta.Tables[0].Rows[0]["PESO"].ToString();
-                    txtTamUniforme.Text = lTabelaAtleta.Tables[0].Rows[0]["TAMANHOUNIFORME"].ToString();
+                    txtAltura.Text = lTabelaAtleta.Rows[0]["ALTURA"].ToString();
+                    txtPeso.Text = lTabelaAtleta.Rows[0]["PESO"].ToString();
+                    txtTamUniforme.Text = lTabelaAtleta.Rows[0]["TAMANHOUNIFORME"].ToString();
                 }
+
+
+                ViewState["VW_ATLETAANEXO"] = AtletaAnexoModelo.AtletaAnexoLista();
+                gvArquivos.DataSource = ViewState["VW_ATLETAANEXO"];
+                gvArquivos.DataBind();
             }
 
             divConsulta.Visible = false;
             divCadastro.Visible = true;
         }
+    }
+
+    private string MontaQuery()
+    {
+        string pQuery = "";
+
+        if (TxtNomePesquisa.Text != "")
+            pQuery += "AND PES.NOME LIKE '" + TxtNomePesquisa.Text.ToUpper() + "%'";
+
+        if(ddlPesquisaPosicao.SelectedValue != "0")
+            pQuery += "AND ATL.CODIGO_POSICAO = " + ddlPesquisaPosicao.SelectedValue + "";
+
+        if (ddlPesquisaStatus.SelectedValue != "0")
+            pQuery += "AND ATL.CODIGO_ATLETASTATUS = " + ddlPesquisaStatus.SelectedValue + "";
+
+        return pQuery;
     }
 
     private void Include()
@@ -158,12 +183,13 @@ public partial class page_administracao_atletas : BaseAutPage
                           for (int i = 0; i < lTabela.Rows.Count; i++)
                           {
                               arquivo = (byte[])lTabela.Rows[i]["ARQUIVO"];
-                              IncludeAnexo(pRetorno, lTabela.Rows[i]["DESCRICAO"].ToString(), lTabela.Rows[i]["TIPOARQUIVO"].ToString(), arquivo);
+                              IncludeAnexo(pRetorno, lTabela.Rows[i]["DESCRICAO"].ToString(), lTabela.Rows[i]["TIPOARQUIVO"].ToString().ToUpper(), arquivo);
                           }
 
                           ExcluiAnexo("");
                       }
                 }
+                Log("PAG: ATLETA, INCLUSÃO DE REGISTRO: " + pRetorno + ", USUARIO: "+ Session["SE_USUARIO"].ToString() + "");
                 LimparCampos();
                 exibirMensagem("Ok", "Cadastro efetuado com sucesso", "ok");
               }
@@ -205,8 +231,8 @@ public partial class page_administracao_atletas : BaseAutPage
             else
             {
                 PessoaEntidade.codigo = decimal.Parse(hfCodigoPessoa.Value);
-                DataSet lFoto = PessoaModelo.Foto();
-                foreach (DataRow ors in lFoto.Tables[0].Rows)
+                DataTable lFoto = PessoaModelo.Foto();
+                foreach (DataRow ors in lFoto.Rows)
                 {
                     PessoaEntidade.foto = (byte[])ors[0];
                 }
@@ -258,28 +284,48 @@ public partial class page_administracao_atletas : BaseAutPage
                     UpdateNumeracaoMais(ddlNumeracao.SelectedItem.Text, decimal.Parse(ddlNumeracao.SelectedValue));
                     AtletaEntidade.tamanhouniforme = txtTamUniforme.Text;
 
-                    pRetornoInc = AtletaModelo.Include();
-
-                    DataTable lTabela = (DataTable)ViewState["ANEXAARQUIVO"];
-                    byte[] arquivo = new byte[0];
-
-                    if (lTabela != null)
-                    {
-                        for (int i = 0; i < lTabela.Rows.Count; i++)
-                        {
-                            arquivo = (byte[])lTabela.Rows[i]["ARQUIVO"];
-                            IncludeAnexo(pRetornoInc, lTabela.Rows[i]["DESCRICAO"].ToString(), lTabela.Rows[i]["TIPOARQUIVO"].ToString(), arquivo);
-                        }
-
-                        ExcluiAnexo("");
-                    }
+                    pRetornoInc = AtletaModelo.Include();                    
                 }
             }
 
+            if(hfCodigoAnexo.Value != "")
+            {
+                AtletaAnexoEntidade.codigo = decimal.Parse(hfCodigoAnexo.Value);
+                AtletaAnexoEntidade.descricao = txtDescricaoArquivos.Text.ToUpper();
+
+                pRetorno = AtletaAnexoModelo.Update();
+
+                txtDescricaoArquivos.Text = "";
+            }
+            else
+            {
+                DataTable lTabela = (DataTable)ViewState["ANEXAARQUIVO"];
+                byte[] arquivo = new byte[0];
+
+                if (lTabela != null)
+                {
+                    for (int i = 0; i < lTabela.Rows.Count; i++)
+                    {
+                        arquivo = (byte[])lTabela.Rows[i]["ARQUIVO"];
+                        IncludeAnexo(decimal.Parse(hfCodigoAtleta.Value), lTabela.Rows[i]["DESCRICAO"].ToString(), lTabela.Rows[i]["TIPOARQUIVO"].ToString().ToUpper(), arquivo);
+                    }
+                    ExcluiAnexo("");
+                }
+
+                txtDescricaoArquivos.Text = "";
+                gvArquivoAdd.DataSource = null;
+                gvArquivoAdd.DataBind();
+            }
+
+            Log("PAG: ATLETA, ATUALIZAÇÃO DE REGISTRO: " + hfCodigoPessoa.Value + ", USUARIO: " + Session["SE_USUARIO"].ToString() + "");
             exibirMensagem("Ok", "Cadastro atualizado com sucesso", "ok");
-            divConsulta.Visible = true;
-            divCadastro.Visible = false;
-            CarregaGrid();
+            divConsulta.Visible = false;
+            divCadastro.Visible = true;
+
+            ViewState["VW_ATLETAANEXO"] = AtletaAnexoModelo.AtletaAnexoLista();
+            gvArquivos.DataSource = ViewState["VW_ATLETAANEXO"];
+            gvArquivos.DataBind();
+
         }
         catch (Exception err)
         {
@@ -344,7 +390,7 @@ public partial class page_administracao_atletas : BaseAutPage
 
             lTipo = Path.GetExtension(Path.GetFileName(fuArquivos.FileName));
 
-            if ((lTipo.ToUpper() == ".JPG") || (lTipo.ToUpper() == ".PNG") || (lTipo.ToUpper() == ".BMP"))
+            if ((lTipo.ToUpper() == ".JPG") || (lTipo.ToUpper() == ".PNG") || (lTipo.ToUpper() == ".BMP") || (lTipo.ToUpper() == ".PDF"))
             {
                 lTipoIMG = lTipo;
                 DataTable lTableAnexo;
@@ -379,9 +425,9 @@ public partial class page_administracao_atletas : BaseAutPage
                     row["TIPOARQUIVO"] = lTipoIMG;
                     row["ARQUIVO"] = carregaAnexo();
 
-                    if (lTamanhoIMG > 1182940)
+                    if (lTamanhoIMG > 25165824)
                     {
-                        exibirMensagem("Aviso", "Tamanho máximo para upload é de 1MB", "alerta");
+                        exibirMensagem("Aviso", "Tamanho máximo para upload é de 3MB", "alerta");
                         txtDescricaoArquivos.Text = "";
                     }
                     else
@@ -454,14 +500,14 @@ public partial class page_administracao_atletas : BaseAutPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!Page.IsPostBack)
+        if (!IsPostBack)
         {
             cbDadosAtleta.Checked = true;
-            CarregaGrid();
+            CarregaGrid("");
             CarregaListaPosicao();
             CarregaListaNumeracao();
             CarregaListaAtletaStatus();
-        }
+        }        
     }
 
     protected void btnNovo_Click(object sender, EventArgs e)
@@ -486,11 +532,16 @@ public partial class page_administracao_atletas : BaseAutPage
         }
     }
 
+    protected void btnPesquisar_Click(object sender, EventArgs e)
+    {
+        CarregaGrid(MontaQuery());
+    }
+
     protected void btnAnexoAdd_Click(object sender, EventArgs e)
     {
         AddAnexo();
     }
-
+    
     protected void gvAtleta_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -498,12 +549,12 @@ public partial class page_administracao_atletas : BaseAutPage
             if (e.CommandName != "Page")
             {
                 int i = (((GridView)sender).PageIndex * ((GridView)sender).PageSize) + int.Parse(e.CommandArgument.ToString());
-                DataSet lTabela = (DataSet)ViewState["VW_ATLETA"];
+                DataTable lTabela = (DataTable)ViewState["VW_ATLETA"];
 
                 switch (e.CommandName)
                 {
                     case "Visualizar":
-                        CarregaDadosAtleta(decimal.Parse(lTabela.Tables[0].Rows[i]["CODIGO"].ToString()));
+                        CarregaDadosAtleta(decimal.Parse(lTabela.Rows[i]["CODIGO"].ToString()));
                         break;
                 }
             }
@@ -515,9 +566,82 @@ public partial class page_administracao_atletas : BaseAutPage
         }
     }
 
+    protected void gvAtleta_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvAtleta.DataSource = (DataTable)ViewState["VW_ATLETA"];
+        gvAtleta.PageIndex = e.NewPageIndex;
+        gvAtleta.DataBind();
+    }
+
     protected void gvArquivos_RowCommand(object sender, GridViewCommandEventArgs e)
     {
+        try
+        {
+            if (e.CommandName != "Page")
+            {
+                int iIndice = (((GridView)sender).PageIndex * ((GridView)sender).PageSize) + int.Parse(e.CommandArgument.ToString());
+                DataTable lTabela = (DataTable)ViewState["VW_ATLETAANEXO"];
 
+                if (e.CommandName == "Visualizar")
+                {
+                    string strJScript2 = "window.open('../webarquivo.aspx?p=" + lTabela.Rows[iIndice]["CODIGO"].ToString() + "&m="+ lTabela.Rows[iIndice]["TIPOARQUIVO"].ToString() + "','myWindow','top=0,left=0,width=790,height=500,buttons=yes,scrollbars=yes,location=no,menubar=no,resizable=no,status=no,directories=no,toolbar=yes');";
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "NomedaJanela", "$(function(){" + strJScript2 + "});", true);
+                }
+
+                if (e.CommandName == "Editar")
+                {
+                    hfCodigoAnexo.Value = lTabela.Rows[iIndice]["CODIGO"].ToString();
+                    txtDescricaoArquivos.Text = lTabela.Rows[iIndice]["DESCRICAO"].ToString();
+                }
+
+                if (e.CommandName == "Excluir")
+                {
+                    AtletaAnexoEntidade.codigo = decimal.Parse(lTabela.Rows[iIndice]["CODIGO"].ToString());
+
+                    string pRetorno = AtletaAnexoModelo.Delete();
+
+                    gvArquivos.DataSource = (DataTable)ViewState["ANEXAARQUIVO"];
+                    gvArquivos.DataBind();
+                }
+            }
+
+        }
+        catch (Exception err)
+        {
+        }
+    }
+
+    protected void gvArquivos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvArquivos.DataSource = (DataTable)ViewState["VW_ATLETAANEXO"];
+        gvArquivos.PageIndex = e.NewPageIndex;
+        gvArquivos.DataBind();
+    }
+
+    protected void gvArquivoAdd_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName != "Page")
+            {
+                int iIndice = (((GridView)sender).PageIndex * ((GridView)sender).PageSize) + int.Parse(e.CommandArgument.ToString());
+
+                if (e.CommandName == "Excluir")
+                {
+                    DataTable lTabela = (DataTable)ViewState["ANEXAARQUIVO"];
+                    lTabela.Rows[iIndice].Delete();
+
+                    ViewState["ANEXAARQUIVO"] = lTabela;
+
+                    gvArquivoAdd.DataSource = (DataTable)ViewState["ANEXAARQUIVO"];
+                    gvArquivoAdd.DataBind();
+                }
+            }
+
+        }
+        catch (Exception err)
+        {           
+        }
     }
 
     protected void cbDadosAtleta_CheckedChanged(object sender, EventArgs e)
@@ -542,10 +666,5 @@ public partial class page_administracao_atletas : BaseAutPage
         }
     }
 
-    #endregion            
-
-    protected void gvArquivoAdd_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-
-    }
+    #endregion    
 }

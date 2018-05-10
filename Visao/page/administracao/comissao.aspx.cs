@@ -37,26 +37,26 @@ public partial class page_administracao_comissao : BaseAutPage
 
     private void CarregaDadosComissao(decimal pCodigo)
     {
-        DataSet lTabela = ComissaoTecnicaModelo.CarregaDadosComissao(pCodigo);
+        DataTable lTabela = ComissaoTecnicaModelo.CarregaDadosComissao(pCodigo);
 
-        if(lTabela.Tables[0].Rows.Count > 0)
+        if(lTabela.Rows.Count > 0)
         {
             ImgFoto.ImageUrl = "../administracao/foto.aspx?p=" + pCodigo + "";
 
-            hfCodigoPessoa.Value = lTabela.Tables[0].Rows[0]["CODIGO"].ToString();
-            hfCodigoComissao.Value = lTabela.Tables[0].Rows[0]["CODIGO_ATLETA"].ToString();
+            hfCodigoPessoa.Value = lTabela.Rows[0]["CODIGO"].ToString();
+            hfCodigoComissao.Value = lTabela.Rows[0]["CODIGOCT"].ToString();
 
-            txtNome.Text = lTabela.Tables[0].Rows[0]["NOME"].ToString();
-            txtNascimento.Text = lTabela.Tables[0].Rows[0]["NASCIMENTO"].ToString();
-            txtProfissao.Text = lTabela.Tables[0].Rows[0]["PROFISSAO"].ToString();
-            txtEmail.Text = lTabela.Tables[0].Rows[0]["EMAIL"].ToString();
-            txtTelefone.Text = lTabela.Tables[0].Rows[0]["TELEFONE"].ToString();
-            ddlEscolaridade.SelectedValue = lTabela.Tables[0].Rows[0]["ESCOLARIDADE"].ToString();
-            txtCpf.Text = lTabela.Tables[0].Rows[0]["CPF"].ToString();
-            txtRg.Text = lTabela.Tables[0].Rows[0]["RG"].ToString();
-            TxtCelular.Text = lTabela.Tables[0].Rows[0]["CELULAR"].ToString();
-            txtPlanoSaude.Text = lTabela.Tables[0].Rows[0]["PLANOSAUDE"].ToString();
-            txtContato.Text = lTabela.Tables[0].Rows[0]["CONTATO"].ToString();
+            txtNome.Text = lTabela.Rows[0]["NOME"].ToString();
+            txtNascimento.Text = lTabela.Rows[0]["NASCIMENTO"].ToString();
+            txtProfissao.Text = lTabela.Rows[0]["PROFISSAO"].ToString();
+            txtEmail.Text = lTabela.Rows[0]["EMAIL"].ToString();
+            txtTelefone.Text = lTabela.Rows[0]["TELEFONE"].ToString();
+            ddlEscolaridade.SelectedValue = lTabela.Rows[0]["ESCOLARIDADE"].ToString();
+            txtCpf.Text = lTabela.Rows[0]["CPF"].ToString();
+            txtRg.Text = lTabela.Rows[0]["RG"].ToString();
+            TxtCelular.Text = lTabela.Rows[0]["CELULAR"].ToString();
+            txtPlanoSaude.Text = lTabela.Rows[0]["PLANOSAUDE"].ToString();
+            txtContato.Text = lTabela.Rows[0]["CONTATO"].ToString();
             
             divConsulta.Visible = false;
             divCadastro.Visible = true;
@@ -117,8 +117,8 @@ public partial class page_administracao_comissao : BaseAutPage
             else
             {
                 PessoaEntidade.codigo = decimal.Parse(hfCodigoPessoa.Value);
-                DataSet lFoto = PessoaModelo.Foto();
-                foreach (DataRow ors in lFoto.Tables[0].Rows)
+                DataTable lFoto = PessoaModelo.Foto();
+                foreach (DataRow ors in lFoto.Rows)
                 {
                     PessoaEntidade.foto = (byte[])ors[0];
                 }
@@ -211,12 +211,12 @@ public partial class page_administracao_comissao : BaseAutPage
             if (e.CommandName != "Page")
             {
                 int i = (((GridView)sender).PageIndex * ((GridView)sender).PageSize) + int.Parse(e.CommandArgument.ToString());
-                DataSet lTabela = (DataSet)ViewState["VW_ATLETA"];
+                DataTable lTabela = (DataTable)ViewState["VW_COMISSAO"];
 
                 switch (e.CommandName)
                 {
                     case "Visualizar":
-                        CarregaDadosComissao(decimal.Parse(lTabela.Tables[0].Rows[i]["CODIGO"].ToString()));
+                        CarregaDadosComissao(decimal.Parse(lTabela.Rows[i]["CODIGO"].ToString()));
                         break;
                 }
             }

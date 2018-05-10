@@ -1,5 +1,6 @@
 using System;
 using System.Web.UI;
+using Modelo;
 
 namespace LOGAN.Prometheus.Pagina
 {
@@ -14,13 +15,7 @@ namespace LOGAN.Prometheus.Pagina
 		{
 		}
 
-		#endregion
-
-        #region Private Methods
-
-        
-
-        #endregion
+		#endregion        
 
         #region Event Handlers
 
@@ -105,5 +100,11 @@ namespace LOGAN.Prometheus.Pagina
             //ScriptManager.RegisterClientScriptBlock(painel, typeof(Page), "modalResposta", comando, true);
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "NomedaJanela", "$(function(){" + comando + "});", true);
         }		
+
+        protected void Log(String desricao)
+        {
+            LogEntidade.descricao = desricao;
+            string pRetorno = LogModelo.Include();
+        }
 	}
 }

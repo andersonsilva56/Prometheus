@@ -45,14 +45,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <asp:Button runat="server" ID="btnPesquisar" class="btn btn-primary" Text="Pesquisar" />
+                                <asp:Button runat="server" ID="btnPesquisar" class="btn btn-primary" Text="Pesquisar" OnClick="btnPesquisar_Click" />
                                 <asp:Button runat="server" ID="btnNovo" class="btn btn-success" Text="Novo" OnClick="btnNovo_Click" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <asp:GridView ID="gvAtleta" runat="server" AutoGenerateColumns="False" OnRowCommand="gvAtleta_RowCommand"
+                            <asp:GridView ID="gvAtleta" runat="server" AutoGenerateColumns="False" EmptyDataText="Nenhum registro encontrado"
+                                OnRowCommand="gvAtleta_RowCommand" OnPageIndexChanging="gvAtleta_PageIndexChanging"
                                 AllowPaging="True" CssClass="table table-bordered table-hover table-responsive jambo_table">
                                 <Columns>
                                     <asp:BoundField DataField="NOME" HeaderText="Nome" />
@@ -275,17 +276,36 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Descrição do arquivo</label>
+                                    <asp:TextBox ID="txtDescricaoArquivos" runat="server" CssClass="form-control"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <asp:Button runat="server" ID="btnAnexoAdd" class="btn btn-primary" Text="Adicionar"
+                                    OnClick="btnAnexoAdd_Click" />
+                            </div>
+                        </div>                        
+                        <div class="row">
+                            <div class="col-md-6">
                                 <asp:GridView ID="gvArquivos" runat="server" AutoGenerateColumns="False"
-                                    OnRowCommand="gvArquivos_RowCommand"
-                                    AllowPaging="True"
+                                    OnRowCommand="gvArquivos_RowCommand" OnPageIndexChanging="gvArquivos_PageIndexChanging"
+                                    AllowPaging="True" PageSize="8"
                                     CssClass="table table-bordered table-hover table-responsive jambo_table">
                                     <Columns>
                                         <asp:BoundField DataField="DESCRICAO" HeaderText="Descrição" />
-                                        <asp:ButtonField HeaderText="Visualizar"
+                                         <asp:ButtonField HeaderText="Visualizar"
                                             ButtonType="Link"
                                             Text='<i class="fa fa-search"></i>'
                                             CommandName="Visualizar"
-                                            ControlStyle-CssClass="btn btn-xs btn-primary" />
+                                            ControlStyle-CssClass="btn btn-xs btn-dark" />
+                                        <asp:ButtonField HeaderText="Editar"
+                                            ButtonType="Link"
+                                            Text='<i class="fa fa-edit"></i>'
+                                            CommandName="Editar"
+                                            ControlStyle-CssClass="btn btn-xs btn-primary" />                                       
                                         <asp:ButtonField HeaderText="Excluir"
                                             ButtonType="Link"
                                             Text='<i class="fa fa-minus-circle"></i>'
@@ -293,33 +313,20 @@
                                             ControlStyle-CssClass="btn btn-xs btn-danger" />
                                     </Columns>
                                 </asp:GridView>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Descrição do arquivo</label>
-                                    <asp:TextBox ID="txtDescricaoArquivos" runat="server" CssClass="form-control"></asp:TextBox>
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <asp:GridView ID="gvArquivoAdd" runat="server"
                                     OnRowCommand="gvArquivoAdd_RowCommand"
                                     AllowPaging="True"
                                     CssClass="table table-bordered table-hover table-responsive jambo_table">
-                                    <Columns>                                                                                
+                                    <Columns>
                                         <asp:ButtonField HeaderText="Excluir"
                                             ButtonType="Link"
                                             Text='<i class="fa fa-minus-circle"></i>'
-                                            CommandName="Visualizar"
+                                            CommandName="Excluir"
                                             ControlStyle-CssClass="btn btn-xs btn-danger" />
                                     </Columns>
                                 </asp:GridView>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <asp:Button runat="server" ID="btnAnexoAdd" class="btn btn-primary" Text="Adicionar" OnClick="btnAnexoAdd_Click" />
                             </div>
                         </div>
                     </div>
@@ -338,6 +345,7 @@
     </div>
     <asp:HiddenField ID="hfCodigoPessoa" runat="server" />
     <asp:HiddenField ID="hfCodigoAtleta" runat="server" />
+    <asp:HiddenField ID="hfCodigoAnexo" runat="server" />
     <asp:HiddenField ID="hfNumeracao" runat="server" />
     <asp:HiddenField ID="hfContador" runat="server" />
     <asp:HiddenField ID="hfFoto" runat="server" />

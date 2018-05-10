@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsFrequencia" targetNamespace="http://tempuri.org/dsFrequencia.xsd" xmlns:mstns="http://tempuri.org/dsFrequencia.xsd" xmlns="http://tempuri.org/dsFrequencia.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsFrequencia" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsFrequencia" msprop:Generator_UserDSName="dsFrequencia">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dsFrequencia" msprop:Generator_TableClassName="dsFrequenciaDataTable" msprop:Generator_TableVarName="tabledsFrequencia" msprop:Generator_TablePropName="_dsFrequencia" msprop:Generator_RowDeletingName="dsFrequenciaRowDeleting" msprop:Generator_RowChangingName="dsFrequenciaRowChanging" msprop:Generator_RowEvHandlerName="dsFrequenciaRowChangeEventHandler" msprop:Generator_RowDeletedName="dsFrequenciaRowDeleted" msprop:Generator_UserTableName="dsFrequencia" msprop:Generator_RowChangedName="dsFrequenciaRowChanged" msprop:Generator_RowEvArgName="dsFrequenciaRowChangeEvent" msprop:Generator_RowClassName="dsFrequenciaRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CODIGO" msprop:Generator_ColumnVarNameInTable="columnCODIGO" msprop:Generator_ColumnPropNameInRow="CODIGO" msprop:Generator_ColumnPropNameInTable="CODIGOColumn" msprop:Generator_UserColumnName="CODIGO" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DIA" msprop:Generator_ColumnVarNameInTable="columnDIA" msprop:Generator_ColumnPropNameInRow="DIA" msprop:Generator_ColumnPropNameInTable="DIAColumn" msprop:Generator_UserColumnName="DIA" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="NOME" msprop:Generator_ColumnVarNameInTable="columnNOME" msprop:Generator_ColumnPropNameInRow="NOME" msprop:Generator_ColumnPropNameInTable="NOMEColumn" msprop:Generator_UserColumnName="NOME" type="xs:string" minOccurs="0" />
+              <xs:element name="SITUACAO" msprop:Generator_ColumnVarNameInTable="columnSITUACAO" msprop:Generator_ColumnPropNameInRow="SITUACAO" msprop:Generator_ColumnPropNameInTable="SITUACAOColumn" msprop:Generator_UserColumnName="SITUACAO" type="xs:string" minOccurs="0" />
+              <xs:element name="POSICAO" msprop:Generator_ColumnVarNameInTable="columnPOSICAO" msprop:Generator_ColumnPropNameInRow="POSICAO" msprop:Generator_ColumnPropNameInTable="POSICAOColumn" msprop:Generator_UserColumnName="POSICAO" type="xs:string" minOccurs="0" />
+              <xs:element name="OBSERVACAO" msprop:Generator_ColumnVarNameInTable="columnOBSERVACAO" msprop:Generator_ColumnPropNameInRow="OBSERVACAO" msprop:Generator_ColumnPropNameInTable="OBSERVACAOColumn" msprop:Generator_UserColumnName="OBSERVACAO" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

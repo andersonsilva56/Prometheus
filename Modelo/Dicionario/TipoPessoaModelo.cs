@@ -8,14 +8,14 @@ namespace Modelo
     [Serializable]
     public class TipoPessoaModelo
     {
-        public static DataSet TipoPessoaLista()
+        public static DataTable TipoPessoaLista()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
             
             Conexao.sql = @" SELECT * FROM TIPOPESSOA WHERE STATUS = 'A' ORDER BY CODIGO ASC ";
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
            
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
             
             return lTableSet;
         }

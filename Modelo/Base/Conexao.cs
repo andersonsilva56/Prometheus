@@ -54,9 +54,9 @@ namespace Modelo
             }
         }
 
-        public static DataSet ExecutaDataSet(NpgsqlCommand Comando)
+        public static DataTable ExecutaDataTable(NpgsqlCommand Comando)
         {
-            DataSet ds = new DataSet();
+            DataTable ds = new DataTable();
             NpgsqlDataAdapter da;
 
             conectar();
@@ -67,7 +67,7 @@ namespace Modelo
                 da = new NpgsqlDataAdapter("", conn);
                 da.SelectCommand = Comando;
                 da.SelectCommand.CommandTimeout = 0;
-                da.Fill(ds, "consulta");
+                da.Fill(ds);
                 desconectar();
                 return ds;
             }

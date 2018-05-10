@@ -8,14 +8,14 @@ namespace Modelo
     [Serializable]
     public class PosicaoModelo
     {
-        public static DataSet PossicaoLista()
+        public static DataTable PossicaoLista()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
             
             Conexao.sql = @" SELECT * FROM POSICAO WHERE STATUS = 'A' ORDER BY DESCRICAO ";
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
            
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
             
             return lTableSet;
         }

@@ -16,17 +16,15 @@ public partial class _Default : BaseAutPage
         {
             UsuarioEntidade.email = login.Value.ToUpper();
             UsuarioEntidade.senha = senha.Value;
-            DataSet lTabela = UsuarioModelo.Acesso();            
+            DataTable lTabela = UsuarioModelo.Acesso();
 
-            if (lTabela.Tables.Count > 0)
+            if (lTabela.Rows.Count > 0)
             {
-                if (lTabela.Tables[0].Rows.Count > 0)
-                    Response.Redirect("~/page/Index.aspx");
-                else
-                    exibirMensagem("Aviso", "Usuário sem acesso.", "alerta");
+                Session["SE_USUARIO"] = lTabela.Rows[0]["NOME"].ToString();
+                Response.Redirect("~/page/Index.aspx");                
             }
             else
-                exibirMensagem("Erro", Conexao.excecao, "erro");
+                exibirMensagem("Aviso", "Usuário sem acesso.", "alerta");
         }
         catch (Exception err)
         {

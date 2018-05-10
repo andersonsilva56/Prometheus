@@ -8,9 +8,9 @@ namespace Modelo
     [Serializable]
     public class UsuarioModelo
     {
-        public static DataSet Acesso()
+        public static DataTable Acesso()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
             
             Conexao.sql = @" SELECT * FROM USUARIO WHERE EMAIL = @EMAIL AND SENHA = @SENHA AND STATUS = 'A' ";
 
@@ -18,19 +18,20 @@ namespace Modelo
             Conexao.cmd.Parameters.Add(new NpgsqlParameter("@EMAIL", UsuarioEntidade.email));
             Conexao.cmd.Parameters.Add(new NpgsqlParameter("@SENHA", Crypto.Encode(UsuarioEntidade.senha)));
 
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
             
             return lTableSet;
         }
 
         public static string Include()
         {            
-            Conexao.sql = " INSERT INTO USUARIO(EMAIL, SENHA, STATUS, DATAREGISTRO) ";
-            Conexao.sql += " VALUES(@EMAIL, @SENHA, 'A', CURRENT_TIMESTAMP); ";
+            Conexao.sql = " INSERT INTO USUARIO(EMAIL, SENHA, NOME, STATUS, DATAREGISTRO) ";
+            Conexao.sql += " VALUES(@EMAIL, @SENHA, @NOME, 'A', CURRENT_TIMESTAMP); ";
 
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
             Conexao.cmd.Parameters.Add(new NpgsqlParameter("@EMAIL", UsuarioEntidade.email));
             Conexao.cmd.Parameters.Add(new NpgsqlParameter("@SENHA", Crypto.Encode(UsuarioEntidade.senha)));
+            Conexao.cmd.Parameters.Add(new NpgsqlParameter("@NOME", UsuarioEntidade.nome));
 
             return Conexao.ExecutaComando(Conexao.cmd);
         }

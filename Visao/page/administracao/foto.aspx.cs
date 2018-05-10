@@ -8,9 +8,9 @@ public partial class page_administracao_foto : System.Web.UI.Page
     {
         PessoaEntidade.codigo = decimal.Parse(Request.QueryString[0].ToString());
 
-        DataSet lFoto = PessoaModelo.Foto();
+        DataTable lFoto = PessoaModelo.Foto();
 
-        foreach (DataRow ors in lFoto.Tables[0].Rows)
+        foreach (DataRow ors in lFoto.Rows)
         {
             myfoto = (byte[])ors[0];
         }

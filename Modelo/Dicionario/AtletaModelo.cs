@@ -9,19 +9,19 @@ namespace Modelo
     {        
         private static decimal SelectMaxId()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
 
             Conexao.sql = @" SELECT MAX(CODIGO) CODIGO FROM ATLETA";
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
 
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
 
-            return decimal.Parse(lTableSet.Tables[0].Rows[0]["CODIGO"].ToString());
+            return decimal.Parse(lTableSet.Rows[0]["CODIGO"].ToString());
         }
 
-        public static DataSet CarregaDadosAtleta(decimal pCodigo)
+        public static DataTable CarregaDadosAtleta(decimal pCodigo)
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
 
             Conexao.sql = @" SELECT ATL.*
                             ,(SELECT POS.CODIGO FROM POSICAO POS 
@@ -39,7 +39,7 @@ namespace Modelo
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
             Conexao.cmd.Parameters.Add(new NpgsqlParameter("@CODIGO", pCodigo));
 
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
 
             return lTableSet;
         }

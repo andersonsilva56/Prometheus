@@ -1,4 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/page/Site.master" AutoEventWireup="true" CodeFile="configuracao.aspx.cs" Inherits="page_frequencia_configuracao" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/page/Site.master" AutoEventWireup="true"
+    EnableEventValidation="false"
+    CodeFile="configuracao.aspx.cs" Inherits="page_frequencia_configuracao" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="<%= ResolveClientUrl("~/css/Calendario.css")%>" rel="Stylesheet" />
@@ -26,7 +28,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Data</label>
-                                <asp:TextBox ID="txtNascimento" runat="server" CssClass="form-control" data-inputmask="'mask': '99/99/9999'"></asp:TextBox>
+                                <asp:TextBox ID="txtData" runat="server" CssClass="form-control" data-inputmask="'mask': '99/99/9999'"></asp:TextBox>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -66,17 +68,24 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <asp:GridView ID="gvFrequencia" runat="server" AutoGenerateColumns="False"
+                            <asp:GridView ID="gvFrequencia" runat="server" AutoGenerateColumns="False" 
+                                OnRowCommand="gvFrequencia_RowCommand" EmptyDataText="Nenhum registro encontrado" 
                                 AllowPaging="True" CssClass="table table-bordered table-hover table-responsive jambo_table">
                                 <Columns>
-                                    <asp:BoundField DataField="NOME" HeaderText="Nome" />
-                                    <asp:BoundField DataField="POSICAO" HeaderText="Posição" />
-                                    <asp:BoundField DataField="STATUS" HeaderText="Status" />
+                                    <asp:BoundField DataField="DIA" HeaderText="Dia" />
+                                    <asp:BoundField DataField="OBSERVACAO" HeaderText="Observação" />
+                                    <asp:BoundField DataField="TIPO" HeaderText="Tipo" />
+                                    <asp:BoundField DataField="PESO" HeaderText="Peso" />
                                     <asp:ButtonField HeaderText="Visualizar"
                                         ButtonType="Link"
                                         Text='<i class="fa fa-pencil-square-o"></i>'
                                         CommandName="Visualizar"
                                         ControlStyle-CssClass="btn btn-xs btn-success" />
+                                     <asp:ButtonField HeaderText="Excluir"
+                                        ButtonType="Link"
+                                        Text='<i class="fa fa-trash"></i>'
+                                        CommandName="Excluir"
+                                        ControlStyle-CssClass="btn btn-xs btn-danger" />
                                 </Columns>
                             </asp:GridView>
                         </div>
@@ -85,6 +94,7 @@
             </div>
         </div>
     </div>
+
     <div id="divCadastro" visible="false" runat="server">
         <div class="page-title">
             <div class="title_left">
@@ -146,30 +156,71 @@
             </div>
         </div>
     </div>
-    <div id="myModalNotas" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalNotasLabel" aria-hidden="true">
+
+    <div id="myModalFrequencia" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalFrequenciaLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="panel panel-success">
+            <div class="panel">
                 <div class="panel-heading">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="panel-title" id="contactLabel"><span class="glyphicon glyphicon-info-sign"></span>Informações</h4>
+                    <h4 class="panel-title" id="contactLabel">Informações</h4>
                 </div>
                 <div class="modal-body" style="padding: 5px;">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label>Contato para emergência</label>
+                                <label>Observação</label>
                                 <asp:TextBox ID="txtObservacao" runat="server" TextMode="MultiLine" CssClass="form-control counted80"></asp:TextBox>
                                 <h6 class="pull-right" id="counted80">80 caracteres remanescente</h6>
                             </div>
                         </div>
-                        <div class="panel-footer" style="margin-bottom: -14px;">
-                            <asp:Button ID="btnSalvarNota" runat="server" class="btn btn-default" Text="Salvar" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Tipo de treino</label>
+                                <asp:DropDownList ID="ddlTipo" runat="server" CssClass="form-control">
+                                    <asp:ListItem Value="1">Treino Normal</asp:ListItem>
+                                    <asp:ListItem Value="2">Day Camp</asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Peso</label>
+                                <asp:TextBox ID="txtPeso" runat="server" CssClass="form-control"></asp:TextBox>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="panel-footer" style="margin-bottom: -14px;">
+                    <asp:Button ID="btnSalvarNota" runat="server" class="btn btn-default" Text="Salvar" OnClick="btnSalvarNota_Click" />
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalConfirma" tabindex="-1" role="dialog" aria-labelledby="modalConfirmaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalConfirmaLabel">Deseja confirmar a exclusão?</h4>
+                </div>
+                <div class="modal-body" id="modalConfirmaBody" style="margin-left: 40%;">
+                    <asp:Button ID="btnSim" runat="server" CssClass="btn btn-primary" Text="Sim" OnClick="btnSim_Click" />
+                    <asp:Button ID="btnNao" runat="server" CssClass="btn btn-danger" Text="Não" OnClick="btnNao_Click"/>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <asp:HiddenField ID="hfCodigo" runat="server" />
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="script" runat="Server">
     <script src="<%= ResolveClientUrl("~/js/input_mask/jquery.inputmask.js")%>"></script>

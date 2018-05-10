@@ -7,23 +7,23 @@ namespace Modelo
     [Serializable]
     public class PessoaModelo
     {
-        public static DataSet Foto()
+        public static DataTable Foto()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
             
             Conexao.sql = @" SELECT FOTO FROM PESSOA WHERE CODIGO = @CODIGO AND STATUS = 'A' ";
 
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
             Conexao.cmd.Parameters.Add(new NpgsqlParameter("@CODIGO", PessoaEntidade.codigo));
 
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
             
             return lTableSet;
         }
 
-        public static DataSet CarregaDadosPessoaAtleta()
+        public static DataTable CarregaDadosPessoaAtleta()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
 
             Conexao.sql = @" SELECT PES.CODIGO, PES.NOME
                             ,(SELECT POS.DESCRICAO FROM POSICAO POS 
@@ -38,14 +38,37 @@ namespace Modelo
 
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
 
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
 
             return lTableSet;
         }
 
-        public static DataSet CarregaDadosPessoaAtleta(decimal pCodigo)
+        public static DataTable CarregaDadosPessoaAtleta(string pQuery)
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
+
+            Conexao.sql = @" SELECT PES.CODIGO, PES.NOME, ATL.CODIGO ATLETACODIGO
+                            ,(SELECT POS.DESCRICAO FROM POSICAO POS 
+                            WHERE ATL.CODIGO_POSICAO = POS.CODIGO AND POS.STATUS = 'A')POSICAO
+                            ,(SELECT ATS.DESCRICAO FROM ATLETASTATUS ATS 
+                            WHERE ATL.CODIGO_ATLETASTATUS = ATS.CODIGO AND ATS.STATUS = 'A')STATUS
+                            FROM PESSOA PES LEFT OUTER JOIN ATLETA ATL
+                            ON (PES.CODIGO = ATL.CODIGO_PESSOA)
+                            WHERE PES.STATUS = 'A'
+                            AND PES.CODIGO_TIPOPESSOA = 2 ";
+            Conexao.sql += pQuery;
+            Conexao.sql += "ORDER BY NOME, POSICAO, STATUS";
+
+            Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
+
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
+
+            return lTableSet;
+        }
+
+        public static DataTable CarregaDadosPessoaAtleta(decimal pCodigo)
+        {
+            DataTable lTableSet = new DataTable();
 
             Conexao.sql = @" SELECT PES.*, ATL.CODIGO CODIGO_ATLETA
                             ,(SELECT POS.CODIGO FROM POSICAO POS 
@@ -61,21 +84,21 @@ namespace Modelo
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
             Conexao.cmd.Parameters.Add(new NpgsqlParameter("@CODIGO", pCodigo));
 
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
 
             return lTableSet;
         }
 
         private static decimal SelectMaxId()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
 
             Conexao.sql = @" SELECT MAX(CODIGO) CODIGO FROM PESSOA";
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
 
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
 
-            return decimal.Parse(lTableSet.Tables[0].Rows[0]["CODIGO"].ToString());
+            return decimal.Parse(lTableSet.Rows[0]["CODIGO"].ToString());
         }
 
         public static decimal Include()

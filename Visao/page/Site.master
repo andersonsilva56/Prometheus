@@ -20,6 +20,7 @@
     <link href="../css/floatexamples.css" rel="stylesheet" />
 
     <script type="text/javascript" src="<%= ResolveClientUrl("~/js/jquery.min.js")%>"></script>
+    
 
     <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
@@ -136,7 +137,13 @@
                                     </li>
                                     <li><a><i class="fa fa-calendar"></i>Frequência <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
+                                            <li><a href="<%= ResolveClientUrl("~/page/frequencia/presenca.aspx")%>">Treino</a>
+                                            </li>
+                                            <li><a href="<%= ResolveClientUrl("~/page/frequencia/justificados.aspx")%>">Justificados</a>
+                                            </li>
                                             <li><a href="<%= ResolveClientUrl("~/page/frequencia/configuracao.aspx")%>">Configuração</a>
+                                            </li>
+                                            <li><a href="<%= ResolveClientUrl("~/page/frequencia/relatorio.aspx")%>">Relatório Geral</a>
                                             </li>
                                         </ul>
                                     </li>

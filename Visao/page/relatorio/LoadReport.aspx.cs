@@ -31,12 +31,12 @@ namespace APB.Mercury.WebInterface.SCPWeb.Www.Pages
                 {
                     lLocalRptFiles = ConfigurationManager.AppSettings["SourceRPTFiles"];
 
-                    DataSet lDataSet = lData.DataSet;                    
+                    DataTable lDataTable = lData;
 
                     string lPathReport = @"" + lLocalRptFiles + hidReportName.Value.ToString();
 
                     myReportDocument.Load(lPathReport);
-                    myReportDocument.Database.Tables[0].SetDataSource(lDataSet);
+                    myReportDocument.Database.Tables[0].SetDataSource(lDataTable);
                     myReportDocument.SetDataSource(lData);                
 
                     // utilizando o ExportToStream.

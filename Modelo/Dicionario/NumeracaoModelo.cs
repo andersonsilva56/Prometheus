@@ -7,14 +7,14 @@ namespace Modelo
     [Serializable]
     public class NumeracaoModelo
     {
-        public static DataSet NumeracaoLista()
+        public static DataTable NumeracaoLista()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
             
             Conexao.sql = @" SELECT NUMERO, NUMERO || '|' || CONTADOR NUMEROCONT FROM NUMERACAO WHERE CONTADOR <= 1 ORDER BY NUMERO ASC ";
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
            
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
             
             return lTableSet;
         }

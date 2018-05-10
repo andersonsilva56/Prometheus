@@ -7,14 +7,14 @@ namespace Modelo
     [Serializable]
     public class AtletaStatusModelo
     {
-        public static DataSet AtletaStatusLista()
+        public static DataTable AtletaStatusLista()
         {
-            DataSet lTableSet = new DataSet();
+            DataTable lTableSet = new DataTable();
             
             Conexao.sql = @" SELECT * FROM ATLETASTATUS WHERE STATUS = 'A' ORDER BY CODIGO ASC ";
             Conexao.cmd = new NpgsqlCommand(Conexao.sql, Conexao.conn);
            
-            lTableSet = Conexao.ExecutaDataSet(Conexao.cmd);
+            lTableSet = Conexao.ExecutaDataTable(Conexao.cmd);
             
             return lTableSet;
         }
